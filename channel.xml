@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ServerCfg>
+	<Channels>
+		<Channel id="1">
+			<GameVersion MajorVersion="0.1" MinorVersion="-2" />
+			<GameUpdataAddr>http://106.39.94.117:998/download/bin/</GameUpdataAddr>
+			<DownURL>http://106.39.94.117:6888/insidenetdown.html</DownURL>
+		</Channel>
+
+		<Channel id="2">
+			<GameVersion MajorVersion="0.1" MinorVersion="-2" />
+			<GameUpdataAddr>http://106.39.94.117:998/download/binAli/</GameUpdataAddr>
+			<DownURL>http://106.39.94.117:6888/aliIndex.html</DownURL>
+		</Channel>
+	</Channels>
+</ServerCfg>

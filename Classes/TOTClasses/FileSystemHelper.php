@@ -15,6 +15,7 @@
 	{
 		if (!file_exists($creatingPath))
 		{
+			echo $creatingPath;
 			if (mkdir($creatingPath))
 			{
 				return true;

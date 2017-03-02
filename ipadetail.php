@@ -123,7 +123,9 @@ function backToPage(location)
 			date_default_timezone_set('PRC');
 			$dateString = date('F d, Y', $value['ReleaseDate']);
 			//下载地址
-			$manifestURL = $serverRootURL . "getmanifest.php?" . $value["BundleIdentifier"] . "@" . $value["BetaVersion"];
+			//$manifestURL = $serverRootURL . "getmanifest.php?" . $value["BundleIdentifier"] . "@" . $value["BetaVersion"];
+			$manifestURL="https://myapptest1.sinaapp.com/manifest.plist";
+			$downLoadURL=$serverRootURL . "getmanifest.php?" . $value["BundleIdentifier"] . "@" . $value["BetaVersion"];
 			//Icon
 			$imagePath = $value['ImagePath'];
 			if (!$imagePath || $imagePath === "")
@@ -178,6 +180,10 @@ function backToPage(location)
 				$bodyHTMLString .= "<a href=\"itms-services://?action=download-manifest&url=$manifestURL\">";
 			$bodyHTMLString .= "<img width = 100px; height=44px; src=\"Images/InstallButton.png\"/>";				
 			$bodyHTMLString .= "</a>";
+                        $bodyHTMLString .="<div style=\"margin-left:150px; margin-top:-45px;\">";
+			$bodyHTMLString .= "<a href=\"$downLoadURL\">";
+			$bodyHTMLString .= "<img width =100px; height=44px; src=\"Images/downLoad.png\" alt=\"download plist\" title=\"download plist\"/>";
+			$bodyHTMLString .= "</a></div>";
 			$bodyHTMLString .= "</div>";
 
 			//按钮和版权信息间隔的底边

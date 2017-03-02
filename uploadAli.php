@@ -18,7 +18,6 @@
 	require_once 'Classes/TOTClasses/XMLHelper.php';
 
 	require_once 'Classes/ApkParser/ApkParser.php';
-	date_default_timezone_set("PRC");
 
 /*
 * $tempFile : handle of uploaded temp file
@@ -133,18 +132,11 @@
 	function CreateDirForBundleIdentifier($bundleIdentifier)
 	{
 		
-		$pathForIdentifier = "Documents/" . $bundleIdentifier . "/";
+		$pathForIdentifier = "AliDocuments/" . $bundleIdentifier . "/";
 		
 		//清空历史文件
 		if ( file_exists($pathForIdentifier))	
 		{
-			$preStr = date('YmdHis');
-			$backPath = "BackDoc/" . $preStr . "/";
-			if( !file_exists("BackDoc/"))
-			{
-				CreateDir("BackDoc/");
-			}
-			moveIpaToBackupDir($pathForIdentifier, $backPath);
 			DeleteDir($pathForIdentifier);
                         CreateDir($pathForIdentifier);
                         $xmlArray = array('LastVersion' => "0");
@@ -175,42 +167,6 @@
 			}
 		}
 	}
-	
-	function moveIpaToBackupDir($ipaPath, $backupPath)
-	{
-		//$srcFile = $ipaPath . "1/" . _FILES["file"];		
-		$srcFile = $ipaPath . "1/" . "BetaTest.ipa";		
-		if( !file_exists($backupPath))
-		{
-			CreateDir($backupPath);
-		}
-		
-		checkAndRemoveLimit("BackDoc/");
-		MoveFile($srcFile, $backupPath . "BetaTest.ipa");
-	}
-
-	function checkAndRemoveLimit($backupPath)
-	{
-		$handles = opendir($backupPath);
-		$files = array();
-		$filetime = array();
-		while( $val=readdir($handles))
-		{
-			if($val !=='.' && $val !=='..')	
-			{
-				$path = $backupPath . '/' . $val;
-				$files[] = $path;
-				$filetime[] = date("Y-m-d H:i:s", filemtime($path));
-			}	
-		}
-		closedir($handles);
-		array_multisort($filetime, SORT_ASC, SORT_STRING, $files);
-		if( count($files) > 2)
-		{
-			echo "delete back file:" . $files[0];
-			DeleteDir($files[0]);
-		}
-	}
 
 	function moveTempIpaToIdentifierDir(
 		$bundleIdentifier, /*bundle identifier of app */
@@ -222,13 +178,13 @@
 		)
 	{
 		//在"Documents/$bundleIdentifier"下新建文件夹$dir,文件夹名为内测版本号
-		$identifierXMLPath = "Documents/". $bundleIdentifier . "/AppInfo.plist";
+		$identifierXMLPath = "AliDocuments/". $bundleIdentifier . "/AppInfo.plist";
 		$identifierInfoArray = ArrayFromXMLPath($identifierXMLPath);
 		$betaVersion = $identifierInfoArray['LastVersion'];
 		$betaVersion++;
 		$identifierInfoArray['LastVersion'] = $betaVersion;
 		SaveArrayAsXMLToPath($identifierInfoArray, $identifierXMLPath);
-		$dir = "Documents/" . $bundleIdentifier . "/" . $betaVersion . "/";
+		$dir = "AliDocuments/" . $bundleIdentifier . "/" . $betaVersion . "/";
 		CreateDir($dir);
 
 		//将ipaPath的文件移动进$dir
@@ -334,7 +290,7 @@
 		//上传成功，开始干些正事
 		//先新建Documents用来存放ipa，版本信息等
 		//再建个Temp文件夹用于暂时保存上传的ipa和解压ipa
-		CreateDir("Documents");
+		CreateDir("AliDocuments");
 		CreateDir("Temp");
 
 		//将临时ipa文件从php临时文件夹移动到相对路径下的Temp文件夹
